@@ -1,5 +1,6 @@
-package com.example.examplemod
+package ru.red.sorting
 
+import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.{Block, Blocks}
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.RegistryEvent
@@ -9,12 +10,14 @@ import net.minecraftforge.fml.InterModComms
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.{FMLClientSetupEvent, FMLCommonSetupEvent, InterModEnqueueEvent, InterModProcessEvent}
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import net.minecraftforge.registries.IForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
+import ru.red.sorting.items.{AreaSelector, AreaSelectorSelected, AreaSelectorActive}
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ExampleMod.MOD_ID)
 object ExampleMod {
-  final val MOD_ID = "examplemod"
+  final val MOD_ID = "sorting"
   // Directly reference a log4j logger.
   private val LOGGER = LogManager.getLogger
 
@@ -73,8 +76,10 @@ object RegistryEvents {
   private val LOGGER = LogManager.getLogger
 
   @SubscribeEvent
-  def onBlocksRegistry(blockRegistryEvent: RegistryEvent.Register[Block]): Unit = {
-    // register a new block here
-    LOGGER.info("HELLO from Register Block")
+  def onItemRegistry(blockRegistryEvent: RegistryEvent.Register[Item]): Unit = {
+    blockRegistryEvent.getRegistry.register(AreaSelector)
+    blockRegistryEvent.getRegistry.register(AreaSelectorActive)
+    blockRegistryEvent.getRegistry.register(AreaSelectorSelected)
+    LOGGER.info("HELLO from Register Item")
   }
 }

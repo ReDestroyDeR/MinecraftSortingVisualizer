@@ -63,10 +63,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'sorting'
 
             mods {
-                examplemod {
+                sorting {
                     source sourceSets.main
                 }
             }
@@ -78,10 +78,10 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'sorting'
 
             mods {
-                examplemod {
+                sorting {
                     source sourceSets.main
                 }
             }
@@ -106,10 +106,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'sorting'
 
             mods {
-                examplemod {
+                sorting {
                     source sourceSets.main
                 }
             }
@@ -121,10 +121,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'sorting', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                sorting {
                     source sourceSets.main
                 }
             }
@@ -178,11 +178,11 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-    String scala_version = "2.13.8"
+    String scala_version = "3.1.2"
     String cats_version = "2.8.2-kotori"
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-library
-    compileOnly(group: 'org.scala-lang', name: 'scala-library', version: scala_version)
+    compileOnly(group: 'org.scala-lang', name: 'scala3-library_3', version: scala_version)
     // A library of functional programing in Scala
     compileOnly(group: 'org.typelevel', name: "cats-core_" + "2.13", version: cats_version)
     compileOnly(group: 'org.typelevel', name: "cats-free_" + "2.13", version: cats_version)
@@ -196,12 +196,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "examplemod",
-                "Specification-Vendor"    : "examplemodsareus",
+                "Specification-Title"     : "sorting",
+                "Specification-Vendor"    : "red",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "examplemodsareus",
+                "Implementation-Vendor"   : "red",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
