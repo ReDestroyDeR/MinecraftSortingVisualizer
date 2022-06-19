@@ -19,8 +19,8 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 version = '1.0'
-group = 'com.yourname.modid' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+group = 'ru.red.sorting' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'sorting'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -178,11 +178,11 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-    String scala_version = "3.1.2"
+    String scala_version = "2.13.8"
     String cats_version = "2.8.2-kotori"
 
     // https://mvnrepository.com/artifact/org.scala-lang/scala-library
-    compileOnly(group: 'org.scala-lang', name: 'scala3-library_3', version: scala_version)
+    compileOnly(group: 'org.scala-lang', name: 'scala-library', version: scala_version)
     // A library of functional programing in Scala
     compileOnly(group: 'org.typelevel', name: "cats-core_" + "2.13", version: cats_version)
     compileOnly(group: 'org.typelevel', name: "cats-free_" + "2.13", version: cats_version)

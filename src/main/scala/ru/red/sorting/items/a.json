@@ -1,8 +1,0 @@
-[{"text": "[","bold": true},
-  {"text": "Red's Sorting", "color": "red"},
-  {"text": "]", "bold": true},
-  {"text": " Position ", "color": "yellow"},
-  {"text": "2 ", "color": "green"},
-  {"text": "- ", "color": "gray"},
-  {"text": "%s", "color": "aqua"}
-]

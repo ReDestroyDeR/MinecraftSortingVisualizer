@@ -15,8 +15,8 @@ import org.apache.logging.log4j.LogManager
 import ru.red.sorting.items.{AreaSelector, AreaSelectorSelected, AreaSelectorActive}
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(ExampleMod.MOD_ID)
-object ExampleMod {
+@Mod(Sorting.MOD_ID)
+object Sorting {
   final val MOD_ID = "sorting"
   // Directly reference a log4j logger.
   private val LOGGER = LogManager.getLogger
@@ -71,7 +71,7 @@ object ExampleMod {
 // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
 // Event bus for receiving Registry Events)
 // The object must be at the top-level. Don't forget to fill modid.
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ExampleMod.MOD_ID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Sorting.MOD_ID)
 object RegistryEvents {
   private val LOGGER = LogManager.getLogger
 
