@@ -12,7 +12,7 @@ import net.minecraftforge.fml.event.lifecycle.{FMLClientSetupEvent, FMLCommonSet
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.registries.IForgeRegistryEntry
 import org.apache.logging.log4j.LogManager
-import ru.red.sorting.items.{AreaSelector, AreaSelectorSelected, AreaSelectorActive}
+import ru.red.sorting.items.{AreaSelector, AreaSelectorActive, AreaSelectorSelected, Shuffle}
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Sorting.MOD_ID)
@@ -77,9 +77,12 @@ object RegistryEvents {
 
   @SubscribeEvent
   def onItemRegistry(blockRegistryEvent: RegistryEvent.Register[Item]): Unit = {
-    blockRegistryEvent.getRegistry.register(AreaSelector)
-    blockRegistryEvent.getRegistry.register(AreaSelectorActive)
-    blockRegistryEvent.getRegistry.register(AreaSelectorSelected)
+    blockRegistryEvent.getRegistry.registerAll(
+      AreaSelector,
+      AreaSelectorActive,
+      AreaSelectorSelected,
+      Shuffle
+    )
     LOGGER.info("HELLO from Register Item")
   }
 }

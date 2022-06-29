@@ -2,6 +2,7 @@ package ru.red.sorting.items
 
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.item.{Item, ItemStack, Rarity}
 import net.minecraft.world.phys.Vec3
@@ -31,18 +32,19 @@ object AreaSelectorActive extends PositionSelector(new Item.Properties()
   override def useOn(pContext: UseOnContext): InteractionResult =
     super.useOn(pContext, 2, AreaSelectorSelected) match {
       case some: Some[ItemStack] =>
+        val player = pContext.getPlayer
         val itemStack = some.get
         val tag = itemStack.getTag
         val pos1 = tag.getIntArray("pos1")
         val pos2 = tag.getIntArray("pos2")
-        pContext.getPlayer.sendMessage(
+        player.sendMessage(
           Component.Serializer.fromJson(
             positionSetMsg
               formatted(
               s"${pos1.mkString("Array(", ", ", ")")}",
               s"${pos1.mkString("Array(", ", ", ")")}")
           ),
-          pContext.getPlayer.getUUID)
+          player.getUUID)
 
         val pos1d = pos1.map(x => x.toDouble)
         val pos2d = pos2.map(x => x.toDouble)
@@ -52,7 +54,14 @@ object AreaSelectorActive extends PositionSelector(new Item.Properties()
           new Vec3(pos2d(0), pos2d(1), pos2d(2)),
           pContext.getLevel
         )
-        tag.putInt("sortingPlainId", SortingManager.add(sortingPlain))
+        val (plain, plainId) = SortingManager.add(sortingPlain)
+        tag.putInt("sortingPlainId", plainId)
+
+        val shuffle = new ItemStack(Shuffle, 1)
+        val nTag = shuffle.getOrCreateTag()
+        shuffle.setTag(tag)
+        nTag.putInt("sortingPlainId", plainId)
+        player.addItem(shuffle)
         InteractionResult.SUCCESS
       case _ => InteractionResult.PASS
     }

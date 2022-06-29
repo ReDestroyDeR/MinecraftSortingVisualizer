@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.Vec3
 import org.apache.logging.log4j.LogManager
+import org.checkerframework.dataflow.qual.Pure
 
 class SortingPlain(private val pos1: Vec3, private val pos2: Vec3, private val level: Level) {
 
@@ -17,34 +18,41 @@ class SortingPlain(private val pos1: Vec3, private val pos2: Vec3, private val l
   private val LOGGER = LogManager.getLogger
   private val minecraft = Minecraft.getInstance()
 
-  private class Column(private var foundationPos: BlockPos, private val height: Int, private val axis: Axis) {
-    var isAffected = false
+  private class Column(private var foundationPos: BlockPos,
+                       private var height: Int,
+                       private val axis: Axis) {
     private val inactive = Blocks.WHITE_CONCRETE
     private val affected = Blocks.RED_CONCRETE
     private val air = Blocks.AIR
 
-    def update(blockState: BlockState): Unit = {
+    def update(height: Int, affect: Boolean = false): Unit = {
       val fX = foundationPos.getX
       val fY = foundationPos.getY
       val fZ = foundationPos.getZ
-      for (y <- fY until fY + height) {
-        level.setBlock(new BlockPos(fX, y, fZ), blockState, 3)
-      }
-    }
+      val blockState = if (affect) affected.defaultBlockState()
+                                  else inactive.defaultBlockState()
+      LOGGER.info("Generating {} to {} {}",
+        fY,
+        height,
+        blockState.getBlock.getName.toString
+      )
 
-    def render(): Unit = {
-      update(inactive.defaultBlockState())
+      for (y <- 0 until this.height) {
+        level.setBlock(new BlockPos(fX, y + fY, fZ), air.defaultBlockState(), 3)
+      }
+
+      for (y <- 0 until height) {
+        level.setBlock(new BlockPos(fX, y + fY, fZ), blockState, 3)
+      }
+      this.height = height
     }
 
     def destroy(): Unit = {
-      update(air.defaultBlockState())
+      update(0)
     }
 
-    def move(delta: Int): Unit = {
-      destroy()
-      foundationPos = offsetByAxis(foundationPos, delta, axis)
-      render()
-    }
+    @Pure
+    def getHeight: Int = height
   }
 
   {
@@ -75,7 +83,7 @@ class SortingPlain(private val pos1: Vec3, private val pos2: Vec3, private val l
 
     for (i <- array.indices) {
       array(i) = new Column(offsetByAxis(border._1, i, axis), i + 1, axis)
-      array(i).render()
+      array(i).update(i + 1)
     }
     LOGGER.info(array.mkString("SORTING PLAIN Array(", ", ", ")"))
   }
@@ -83,6 +91,14 @@ class SortingPlain(private val pos1: Vec3, private val pos2: Vec3, private val l
   private def offsetByAxis(blockPos: BlockPos, delta: Int, axis: Axis): BlockPos = {
     blockPos.offset(if (axis == Axis.X) delta else 0, 0, if (axis == Axis.Z) delta else 0)
   }
+
+  def sync(intArr: Array[Int]): Unit = {
+    for (i <- array.indices) {
+      array(i).update(intArr(i), intArr(i) != array(i).getHeight)
+    }
+  }
+
+  def getArray: Array[Int] = array.map(col => col.getHeight)
 
   def destroy(): Unit = array.foreach(column => column.destroy())
 }
