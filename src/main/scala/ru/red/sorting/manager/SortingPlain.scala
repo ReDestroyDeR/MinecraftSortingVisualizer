@@ -97,6 +97,11 @@ class SortingPlain(private val pos1: Vec3, private val pos2: Vec3, private val l
       array(i).update(intArr(i), intArr(i) != array(i).getHeight)
     }
   }
+  def sync(intArr: Array[Int], offset: Int): Unit = {
+    for (i <- intArr.indices) {
+      array(i + offset).update(intArr(i), intArr(i) != array(i + offset).getHeight)
+    }
+  }
 
   def getArray: Array[Int] = array.map(col => col.getHeight)
 

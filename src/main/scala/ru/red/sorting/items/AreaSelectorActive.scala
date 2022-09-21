@@ -58,10 +58,14 @@ object AreaSelectorActive extends PositionSelector(new Item.Properties()
         tag.putInt("sortingPlainId", plainId)
 
         val shuffle = new ItemStack(Shuffle, 1)
-        val nTag = shuffle.getOrCreateTag()
+        val bubbleSort = new ItemStack(BubbleSort, 1)
+        val mergeSort = new ItemStack(MergeSort, 1)
         shuffle.setTag(tag)
-        nTag.putInt("sortingPlainId", plainId)
+        bubbleSort.setTag(tag)
+        mergeSort.setTag(tag)
         player.addItem(shuffle)
+        player.addItem(bubbleSort)
+        player.addItem(mergeSort)
         InteractionResult.SUCCESS
       case _ => InteractionResult.PASS
     }
